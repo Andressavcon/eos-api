@@ -3,6 +3,7 @@ package com.andvc.eos.controllers;
 import com.andvc.eos.dto.EventRequestDTO;
 import com.andvc.eos.dto.EventResponseDTO;
 import com.andvc.eos.services.EventService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<EventResponseDTO> createEvent(@RequestBody EventRequestDTO dto) {
+    public ResponseEntity<EventResponseDTO> createEvent(@Valid @RequestBody EventRequestDTO dto) {
         EventResponseDTO response = eventService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -34,7 +35,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable UUID id, @RequestBody EventRequestDTO dto) {
+    public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable UUID id, @Valid @RequestBody EventRequestDTO dto) {
         EventResponseDTO response = eventService.update(id, dto);
         return ResponseEntity.ok(response);
     }
