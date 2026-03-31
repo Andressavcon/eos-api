@@ -8,6 +8,7 @@ import com.andvc.eos.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class EventService {
@@ -23,8 +24,10 @@ public class EventService {
                 .toList();
     }
 
-    public Event save(Event event) {
-        return eventRepository.save(event);
+    public EventResponseDTO findById(UUID id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+        return eventMapper.toDTO(event);
     }
 
     public EventResponseDTO create(EventRequestDTO dto) {
@@ -33,4 +36,5 @@ public class EventService {
 
         return eventMapper.toDTO(savedEvent);
     }
+
 }
