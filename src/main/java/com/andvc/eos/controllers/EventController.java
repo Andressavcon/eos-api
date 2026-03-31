@@ -32,4 +32,16 @@ public class EventController {
     public ResponseEntity<EventResponseDTO> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(eventService.findById(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EventResponseDTO> updateEvent(@PathVariable UUID id, @RequestBody EventRequestDTO dto) {
+        EventResponseDTO response = eventService.update(id, dto);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable UUID id) {
+        eventService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

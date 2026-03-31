@@ -37,4 +37,23 @@ public class EventService {
         return eventMapper.toDTO(savedEvent);
     }
 
+    public EventResponseDTO update(UUID id, EventRequestDTO dto) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
+
+        event.setName(dto.name());
+        event.setDate(dto.date());
+        event.setStatus(dto.status());
+
+        Event updatedEvent = eventRepository.save(event);
+        return eventMapper.toDTO(updatedEvent);
+    }
+
+    public void delete(UUID id) {
+        if (!eventRepository.existsById(id)) {
+            throw new RuntimeException("Event not found");
+        }
+        eventRepository.deleteById(id);
+    }
+
 }
